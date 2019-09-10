@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>tpltest</title>
+</head>
+<body>
+    <h1>这个是模板测试页面</h1>
+    姓名:{{ name |capfirst | upper | lower }}
+    <br>
+{#    过滤器#}
+{#    对视图传过来的数据进行二次处理#}
+{#    语法结构{{ age | add:10 }}#}
+    年龄:{{ age | add:10 }}
+    <h2>爱好{{hobby }}</h2>
+    <h2>第一个爱好{{ hobby.0 }}</h2>
+    <h2>分数:{{ score }}</h2>
+    <h2>数学成绩:{{ score.shuxue }}</h2>
+    <h2>{{ say.say }}</h2>
+
+{#    控制语句#}
+{% if age > 18 and age < 40  %}
+    <p>青壮年</p>
+{% elif age >= 40 %}
+    <p>中年</p>
+{% else %}
+    <p>少年</p>
+{% endif %}
+
+
+
+
+{#safe #}
+{#django出于安全考虑，会将前面注入的js或者#}
+{#html语句转义，使用safe将指定的js或者html#}
+{#变为安全的语句，正常执行#}
+{{ myjs |safe }}
+
+
+{##遍历列表#}
+<ol>
+    {% for one in hobby %}
+        <li>{{ one }}</li>
+    {% endfor %}
+</ol>
+
+
+
+{##遍历字典#}
+{% for key,value in score.items %}
+    <p>{{ key }}:{{ value }}</p>
+{% endfor %}
+
+
+
+
+
+{# forloop 是django自带的一个变量，#}
+{#    作用于循环，记录循环的次数，可以对#}
+{#    循环的内容进行控制，判断，通常和if#}
+{#    连用#}
+{% for one in hobby reversed %}
+    <p>{{ forloop.counter }}.{{ one }}</p>
+{% endfor %}
+
+{% for one in hobby reversed %}
+    {% if forloop.first %}
+        <p style="color:red">{{ forloop.counter }}.{{ one }}</p>
+    {% elif forloop.last %}
+        <p style="color:blueviolet">{{ forloop.counter }}.{{ one }}</p>
+    {% else %}
+        <p style="color:yellow">{{ forloop.counter }}.{{ one }}</p>
+    {% endif %}
+{% endfor %}
+
+
+
+
+
+
+</body>
+</html>
